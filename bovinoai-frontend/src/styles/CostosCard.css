@@ -1,0 +1,347 @@
+.costos-container {
+  padding: 20px;
+}
+
+.precio-control {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.precio-control label {
+  display: block;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.precio-input-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.precio-input-group input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.precio-input-group input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 4px rgba(52, 152, 219, 0.3);
+}
+
+.precio-display {
+  background: #f0f0f0;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #2c3e50;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.precio-hint {
+  margin: 0;
+  font-size: 12px;
+  color: #999;
+  font-style: italic;
+}
+
+.indicadores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.indicador-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 15px;
+  border-left: 4px solid #3498db;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.indicador-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.indicador-card.positivo {
+  border-left-color: #27ae60;
+  background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);
+}
+
+.indicador-card.negativo {
+  border-left-color: #e74c3c;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+}
+
+.indicador-icono {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.indicador-contenido {
+  flex: 1;
+}
+
+.indicador-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #999;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.indicador-valor {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 4px;
+}
+
+.indicador-valor.excelente {
+  color: #27ae60;
+}
+
+.indicador-valor.bueno {
+  color: #3498db;
+}
+
+.indicador-valor.regular {
+  color: #f39c12;
+}
+
+.indicador-valor.malo {
+  color: #e67e22;
+}
+
+.indicador-valor.critico {
+  color: #e74c3c;
+}
+
+.indicador-sublabel {
+  font-size: 13px;
+  color: #7f8c8d;
+}
+
+.analisis-section {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.analisis-section h3,
+.alertas-section h3,
+.recomendaciones-section h3 {
+  margin: 0 0 20px 0;
+  color: #2c3e50;
+  font-size: 18px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ecf0f1;
+}
+
+.analisis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.analisis-card {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+
+.analisis-titulo {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 12px;
+}
+
+.analisis-contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.analisis-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.analisis-item span {
+  color: #7f8c8d;
+}
+
+.analisis-item strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.rentabilidad-estado {
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.rentabilidad-estado.positivo {
+  background: #d4edda;
+  color: #155724;
+}
+
+.rentabilidad-estado.negativo {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.alertas-section,
+.recomendaciones-section {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.alertas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.alerta {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 6px;
+  border-left: 4px solid;
+}
+
+.alerta.bajo_rendimiento {
+  background: #fff3cd;
+  border-left-color: #ffc107;
+  color: #856404;
+}
+
+.alerta.perdida_de_peso {
+  background: #f8d7da;
+  border-left-color: #dc3545;
+  color: #721c24;
+}
+
+.alerta.estado_nutricional_critico {
+  background: #f8d7da;
+  border-left-color: #dc3545;
+  color: #721c24;
+}
+
+.alerta.pesaje_vencido {
+  background: #e2e3e5;
+  border-left-color: #6c757d;
+  color: #383d41;
+}
+
+.alerta-icono {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.alerta-contenido {
+  flex: 1;
+}
+
+.alerta-titulo {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.alerta-descripcion {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.recomendaciones-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.recomendaciones-list li {
+  margin-bottom: 12px;
+  color: #555;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.recomendaciones-list strong {
+  color: #2c3e50;
+}
+
+.costos-loading,
+.costos-error,
+.costos-vacio {
+  padding: 40px 20px;
+  text-align: center;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.costos-error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.costos-vacio {
+  color: #999;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .costos-container {
+    padding: 10px;
+  }
+
+  .indicadores-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analisis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .precio-input-group {
+    flex-direction: column;
+  }
+
+  .precio-display {
+    width: 100%;
+    text-align: center;
+  }
+}

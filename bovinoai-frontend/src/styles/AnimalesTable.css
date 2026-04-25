@@ -1,0 +1,213 @@
+.animales-table-container {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.tabla-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 24px;
+  flex: 1;
+}
+
+.tabla-busqueda {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 300px;
+  transition: border-color 0.3s;
+}
+
+.tabla-busqueda:focus {
+  outline: none;
+  border-color: #2ecc71;
+  box-shadow: 0 0 4px rgba(46, 204, 113, 0.3);
+}
+
+.tabla-wrapper {
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.animales-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.animales-tabla thead {
+  background: #f5f5f5;
+  border-bottom: 2px solid #ddd;
+}
+
+.animales-tabla th {
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+}
+
+.animales-tabla tbody tr {
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s;
+}
+
+.animales-tabla tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.animales-tabla td {
+  padding: 12px 15px;
+  color: #555;
+}
+
+.tabla-row .chapeta {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.tabla-row .peso {
+  text-align: right;
+  font-weight: 500;
+}
+
+.tabla-row .gdp {
+  text-align: right;
+  color: #27ae60;
+  font-weight: 500;
+}
+
+.alerta {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.alerta-normal {
+  background: #d4edda;
+  color: #155724;
+}
+
+.alerta-amarilla {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.alerta-naranja {
+  background: #ffe5cc;
+  color: #d97706;
+}
+
+.alerta-roja {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.acciones {
+  text-align: center;
+}
+
+.btn-ver {
+  padding: 6px 12px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.btn-ver:hover {
+  background: #2980b9;
+}
+
+.tabla-vacia {
+  text-align: center;
+  color: #999;
+  padding: 30px !important;
+}
+
+.tabla-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  font-size: 13px;
+  color: #777;
+}
+
+.tabla-footer p {
+  margin: 0;
+}
+
+.btn-reload {
+  padding: 8px 16px;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.btn-reload:hover {
+  background: #229954;
+}
+
+.tabla-loading,
+.tabla-error {
+  padding: 30px;
+  text-align: center;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+@media (max-width: 768px) {
+  .tabla-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tabla-busqueda {
+    width: 100%;
+  }
+
+  .animales-tabla {
+    font-size: 12px;
+  }
+
+  .animales-tabla th,
+  .animales-tabla td {
+    padding: 8px 10px;
+  }
+
+  .btn-ver {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}
