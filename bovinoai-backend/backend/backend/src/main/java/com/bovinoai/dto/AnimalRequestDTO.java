@@ -10,19 +10,36 @@ package com.bovinoai.dto;
  * @author ALEJANDRO
  */
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+import java.math.BigDecimal;
  
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class AnimalRequestDTO {
-    private String chapeta;           // ID físico (código de oreja)
-    private Long idRaza;              // FK a raza
+    @NotBlank(message = "La chapeta es obligatoria")
+    private String chapeta;
+    
+    @NotNull(message = "La raza es obligatoria")
+    private Long idRaza;
+    
+    @NotNull(message = "La fecha de nacimiento es obligatoria")
     private LocalDate fechaNacimiento;
-    private String sexo;              // "M" o "H"
-    private String etapa;             // "cria", "levante", "ceba"
+    
+    @NotBlank(message = "El sexo es obligatorio")
+    private String sexo;
+    
+    @NotBlank(message = "La etapa es obligatoria")
+    private String etapa;
+    
     private String observaciones;
+    
+    @Positive(message = "El peso debe ser positivo")
+    private BigDecimal pesoInicial;
 }

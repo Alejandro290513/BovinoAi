@@ -1,0 +1,100 @@
+.costo-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.costo-card h3 {
+  margin: 0 0 20px 0;
+  color: #2c3e50;
+}
+
+.precio-mercado-input {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.precio-mercado-input label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.precio-mercado-input input {
+  width: 200px;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.metricas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.metrica {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.metrica .label {
+  font-size: 13px;
+  color: #6c757d;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metrica .valor {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.metrica .estado {
+  font-size: 12px;
+  margin-top: 4px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+.valor.positivo { color: #28a745; }
+.valor.negativo { color: #dc3545; }
+
+.interpretacion {
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.rentable {
+  background: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-left: 4px solid #28a745;
+  margin: 0;
+}
+
+.no-rentable {
+  background: #fff3cd;
+  color: #856404;
+  padding: 12px;
+  border-left: 4px solid #ffc107;
+  margin: 0;
+}
+
+.costo-card.empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
+}

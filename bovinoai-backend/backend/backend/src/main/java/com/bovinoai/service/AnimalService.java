@@ -1,28 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package com.bovinoai.service;
 
-/**
- *
- * @author ALEJANDRO
- */
-
 import com.bovinoai.model.Animal;
+import com.bovinoai.model.HistorialBiometrico;
 import com.bovinoai.model.Raza;
 import com.bovinoai.dto.AnimalRequestDTO;
 import com.bovinoai.dto.AnimalResponseDTO;
+import com.bovinoai.exception.ResourceNotFoundException;
 import com.bovinoai.repository.AnimalRepository;
+import com.bovinoai.repository.HistorialBiometricoRepository;
 import com.bovinoai.repository.RazaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,35 +26,38 @@ public class AnimalService {
 
     @Autowired
     private RazaRepository razaRepository;
+    
+    @Autowired
+    private HistorialBiometricoRepository historialRepository;
 
-    /**
-     * Listar todos los animales activos
-     */
     @Transactional(readOnly = true)
-    public List<AnimalResponseDTO> listarActivos() {
-        return animalRepository.findByActivoTrue()
-                .stream()
+    public List<AnimalResponseDTO> listar(String etapa, Long idRaza) {
+        List<Animal> animales;
+        if (etapa != null && idRaza != null) {
+            animales = animalRepository.findByActivoTrueAndEtapaAndRaza_Id(etapa, idRaza);
+        } else if (etapa != null) {
+            animales = animalRepository.findByActivoTrueAndEtapa(etapa);
+        } else if (idRaza != null) {
+            animales = animalRepository.findByActivoTrueAndRaza_Id(idRaza);
+        } else {
+            animales = animalRepository.findByActivoTrue();
+        }
+        return animales.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Obtener un animal por ID
-     */
     @Transactional(readOnly = true)
     public AnimalResponseDTO obtenerPorId(Long id) {
-        Optional<Animal> animal = animalRepository.findById(id);
-        return animal.map(this::convertToDTO).orElse(null);
+        return animalRepository.findById(id)
+                .map(this::convertToDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("Animal no encontrado con ID: " + id));
     }
 
-    /**
-     * Crear nuevo animal
-     */
     @Transactional
     public AnimalResponseDTO crear(AnimalRequestDTO requestDTO) {
-        // Validar que la raza exista
         Raza raza = razaRepository.findById(requestDTO.getIdRaza())
-                .orElseThrow(() -> new RuntimeException("Raza no encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Raza no encontrada con ID: " + requestDTO.getIdRaza()));
 
         Animal animal = new Animal();
         animal.setChapeta(requestDTO.getChapeta());
@@ -74,69 +70,61 @@ public class AnimalService {
         animal.setObservaciones(requestDTO.getObservaciones());
 
         Animal guardado = animalRepository.save(animal);
+        
+        if (requestDTO.getPesoInicial() != null && requestDTO.getPesoInicial().compareTo(BigDecimal.ZERO) > 0) {
+            HistorialBiometrico historial = new HistorialBiometrico();
+            historial.setAnimal(guardado);
+            historial.setFechaPesaje(guardado.getFechaIngreso());
+            historial.setPesoKg(requestDTO.getPesoInicial());
+            historial.setCondicionCorporal(BigDecimal.valueOf(3));
+            historialRepository.save(historial);
+        }
+        
         return convertToDTO(guardado);
     }
 
-    /**
-     * Actualizar un animal
-     */
     @Transactional
     public AnimalResponseDTO actualizar(Long id, AnimalRequestDTO requestDTO) {
         Animal animal = animalRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Animal no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Animal no encontrado con ID: " + id));
 
         if (requestDTO.getIdRaza() != null) {
             Raza raza = razaRepository.findById(requestDTO.getIdRaza())
-                    .orElseThrow(() -> new RuntimeException("Raza no encontrada"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Raza no encontrada con ID: " + requestDTO.getIdRaza()));
             animal.setRaza(raza);
         }
 
-        if (requestDTO.getChapeta() != null) {
-            animal.setChapeta(requestDTO.getChapeta());
-        }
-        if (requestDTO.getSexo() != null) {
-            animal.setSexo(requestDTO.getSexo());
-        }
-        if (requestDTO.getEtapa() != null) {
-            animal.setEtapa(requestDTO.getEtapa());
-        }
-        if (requestDTO.getObservaciones() != null) {
-            animal.setObservaciones(requestDTO.getObservaciones());
-        }
+        if (requestDTO.getChapeta() != null) animal.setChapeta(requestDTO.getChapeta());
+        if (requestDTO.getSexo() != null) animal.setSexo(requestDTO.getSexo());
+        if (requestDTO.getEtapa() != null) animal.setEtapa(requestDTO.getEtapa());
+        if (requestDTO.getObservaciones() != null) animal.setObservaciones(requestDTO.getObservaciones());
 
         Animal actualizado = animalRepository.save(animal);
         return convertToDTO(actualizado);
     }
 
-    /**
-     * Soft delete: desactivar animal sin borrarlo
-     */
     @Transactional
     public void desactivar(Long id) {
         Animal animal = animalRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Animal no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Animal no encontrado con ID: " + id));
         animal.setActivo(false);
         animalRepository.save(animal);
     }
 
-    /**
-     * Convertir entidad Animal a DTO
-     */
     private AnimalResponseDTO convertToDTO(Animal animal) {
         AnimalResponseDTO dto = new AnimalResponseDTO();
         dto.setId(animal.getId());
         dto.setChapeta(animal.getChapeta());
-        dto.setRaza(animal.getRaza().getNombre());
+        dto.setRaza(animal.getRaza() != null ? animal.getRaza().getNombre() : "N/A");
         dto.setFechaNacimiento(animal.getFechaNacimiento());
         dto.setSexo(animal.getSexo());
         dto.setEtapa(animal.getEtapa());
         dto.setActivo(animal.getActivo());
         dto.setFechaIngreso(animal.getFechaIngreso());
         dto.setObservaciones(animal.getObservaciones());
-        // ultimoPeso y gdpReciente se cargan desde el historial (por ahora null)
-        dto.setUltimoPeso(null);
-        dto.setGdpReciente(null);
-        dto.setAlertas(null);
+        dto.setUltimoPeso(BigDecimal.ZERO);
+        dto.setGdpReciente(BigDecimal.ZERO);
+        dto.setAlertas("Sin alertas");
         return dto;
     }
 }

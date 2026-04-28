@@ -31,43 +31,54 @@ public class CostosService {
         List<InsumoEntorno> insumos = insumoRepository.findByAnimalIdOrderByFechaDesc(idAnimal);
         List<HistorialBiometrico> pesajes = historialRepository.findByAnimalIdOrderByFechaPesajeAsc(idAnimal);
 
-        // 1. Costo Acumulado
+        // 1. Costo Acumulado - Manejo seguro de nulls
         BigDecimal costoAcumulado = insumos.stream()
                 .map(InsumoEntorno::getCostoDiaCop)
                 .filter(costo -> costo != null)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // 2. Conversión Alimenticia (Ganancia de Peso / Consumo de Concentrado)
-        Double conversion = 0.0;
-        Double pesoActual = 0.0;
-        if (!pesajes.isEmpty()) {
-            pesoActual = pesajes.get(pesajes.size() - 1).getPesoKg().doubleValue();
-            double pesoInicial = pesajes.get(0).getPesoKg().doubleValue();
-            double gananciaPeso = pesoActual - pesoInicial;
+        // 2. Conversión Alimenticia
+        double conversion = 0.0;
+        double pesoActual = 0.0;
+        
+        if (pesajes != null && pesajes.size() >= 2) {
+            HistorialBiometrico ultimoPesaje = pesajes.get(pesajes.size() - 1);
+            HistorialBiometrico primerPesaje = pesajes.get(0);
+            
+            if (ultimoPesaje.getPesoKg() != null && primerPesaje.getPesoKg() != null) {
+                pesoActual = ultimoPesaje.getPesoKg().doubleValue();
+                double pesoInicial = primerPesaje.getPesoKg().doubleValue();
+                double gananciaPeso = pesoActual - pesoInicial;
 
-            double totalConcentrado = insumos.stream()
-                    .mapToDouble(i -> i.getConcentradoKg() != null ? i.getConcentradoKg() : 0.0)
-                    .sum();
+                double totalConcentrado = insumos.stream()
+                        .mapToDouble(i -> i.getConcentradoKg() != null ? i.getConcentradoKg() : 0.0)
+                        .sum();
 
-            if (totalConcentrado > 0 && gananciaPeso > 0) {
-                conversion = totalConcentrado / gananciaPeso;
+                if (totalConcentrado > 0 && gananciaPeso > 0) {
+                    conversion = totalConcentrado / gananciaPeso;
+                }
             }
+        } else if (pesajes != null && !pesajes.isEmpty()) {
+             // Caso con 1 solo pesaje
+             pesoActual = pesajes.get(0).getPesoKg() != null ? pesajes.get(0).getPesoKg().doubleValue() : 0.0;
         }
 
-        // 3. Margen de Ganancia (Simulado: Peso Final * Precio Mercado - Costo Acumulado)
+        // 3. Margen de Ganancia
         BigDecimal margen = BigDecimal.ZERO;
         if (pesoActual > 0) {
-            BigDecimal precioMercado = new BigDecimal("15000");
+            BigDecimal precioMercado = new BigDecimal("15000"); // Debería ser dinámico
             BigDecimal valorAnimal = precioMercado.multiply(BigDecimal.valueOf(pesoActual));
             margen = valorAnimal.subtract(costoAcumulado);
         }
 
-        // 4. Punto de Equilibrio (Costo Acumulado / Precio Mercado)
+        // 4. Punto de Equilibrio
         Double puntoEquilibrio = 0.0;
         if (pesoActual > 0) {
             BigDecimal precioMercado = new BigDecimal("15000");
             puntoEquilibrio = costoAcumulado.divide(precioMercado, 2, RoundingMode.HALF_UP).doubleValue();
         }
+
+        // ... resto del método igual
 
         // 5. Días en Etapa
         Integer diasEnEtapa = 0;

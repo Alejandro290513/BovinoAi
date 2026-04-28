@@ -19,4 +19,7 @@ import java.util.List;
 public interface AnimalRepository extends JpaRepository<Animal, Long> {
     Animal findByChapeta(String chapeta);
     List<Animal> findByActivoTrue();
+    List<Animal> findByActivoTrueAndEtapa(String etapa);
+    List<Animal> findByActivoTrueAndRaza_Id(Long idRaza);
+    List<Animal> findByActivoTrueAndEtapaAndRaza_Id(String etapa, Long idRaza);
 }

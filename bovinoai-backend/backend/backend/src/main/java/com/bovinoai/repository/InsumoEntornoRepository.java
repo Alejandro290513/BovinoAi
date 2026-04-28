@@ -20,6 +20,7 @@ import java.util.List;
 
 @Repository
 public interface InsumoEntornoRepository extends JpaRepository<InsumoEntorno, Long> {
+    List<InsumoEntorno> findByAnimalIdOrderByFechaAsc(Long animalId);
     List<InsumoEntorno> findByAnimalIdOrderByFechaDesc(Long animalId);
     
     @Query("SELECT i FROM InsumoEntorno i WHERE i.animal.id = :animalId ORDER BY i.fecha DESC LIMIT 1")
