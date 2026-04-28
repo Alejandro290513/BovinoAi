@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { crearAnimal, actualizarAnimal, getAnimal, getRazas } from '../services/api';
-import { Calendar, Info, Weight } from 'lucide-react';
+import { Calendar, Info, Weight, RotateCw } from 'lucide-react';
 
 export default function AnimalForm({ onClose, onCreated, animalId }) {
   const [razas, setRazas] = useState([]);
